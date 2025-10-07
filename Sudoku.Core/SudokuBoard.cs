@@ -1,30 +1,61 @@
+using System.Text;
 using Sudoku.Core.Exceptions;
 
 namespace Sudoku.Core;
 
 public class SudokuBoard
 {
-	private readonly int[,] _board = new int[9, 9];
-
-	public int this[int row, int column]
+	public SudokuCell this[int row, int col]
 	{
-		get => _board[row, column];
-		set => _board[row, column] = value;
+		get => _board[row, col];
+		set => _board[row, col] = value;
 	}
+	
+	private readonly SudokuCell[,] _board = new SudokuCell[9, 9];
 
-	public SudokuBoard(int[,]? board = null)
+	public SudokuBoard(SudokuCell[,]? board = null)
 	{
 		if (board == null) return;
 		
-		ValidateBoard();
+		ValidateBoard(board);
+		
+		_board = board;
 	}
 
-	private void ValidateBoard()
+	private void ValidateBoard(SudokuCell[,] board)
 	{
-		var rowCount = _board.GetLength(0);
-		var columnCount = _board.GetLength(1);
+		var rowCount = board.GetLength(0);
+		var colCount = board.GetLength(1);
+		
+		if (rowCount != 9 || colCount != 9)
+			throw new InvalidBoardException("Sudoku board size must be 9x9");
+	}
 
-		if (rowCount != 9 || columnCount != 9)
-			throw new InvalidBoardException("Sudoku board must be 9x9");
+	public override string ToString()
+	{
+		var sb = new StringBuilder();
+
+		for (var row = 0; row < 9; row++)
+		{
+			sb.Append('[');
+			
+			for (var col = 0; col < 9; col++)
+			{
+				var cell = _board[row, col];
+				var value = cell?.Value?.ToString() ?? "_";
+				
+				sb.Append(value);
+
+				if (col < 8)
+					sb.Append(' ');
+			}
+			
+			sb.Append(']');
+			
+			if (row < 8)
+				sb.AppendLine();
+		}
+
+		return sb.ToString();
 	}
 }
