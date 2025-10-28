@@ -18,7 +18,7 @@ public class SudokuCell
 		}
 	}
 	public bool[] Notes { get; } = new bool[9];
-	public bool IsGiven { get; set; }
+	public bool IsGiven { get; private set; }
 
 	private int? _value;
 

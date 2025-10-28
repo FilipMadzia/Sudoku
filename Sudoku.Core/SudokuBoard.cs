@@ -1,4 +1,5 @@
 using System.Text;
+using Sudoku.Core.Enums;
 using Sudoku.Core.Exceptions;
 
 namespace Sudoku.Core;
@@ -10,6 +11,8 @@ public class SudokuBoard
 		get => _board[row, col];
 		set => _board[row, col] = value;
 	}
+
+	public List<SudokuMove> Moves { get; set; } = [];
 	
 	private readonly SudokuCell[,] _board = new SudokuCell[9, 9];
 
@@ -21,6 +24,23 @@ public class SudokuBoard
 		
 		ValidateBoard();
 	}
+
+	public void MakeMove(SudokuMove move)
+	{
+		switch (move.MoveType)
+		{
+			case SudokuMoveType.Value:
+				_board[move.Row, move.Col].Value = move.Value;
+				break;
+			case SudokuMoveType.Note:
+				_board[move.Row, move.Col].Notes[move.Note - 1 ?? throw new Exception("MakeMove(): move type note yet note is null")] = true;
+				break;
+		}
+		
+		Moves.Add(move);
+	}
+	
+	// TODO: RevertMove()
 
 	private void ValidateBoard()
 	{
