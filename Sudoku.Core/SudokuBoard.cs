@@ -27,13 +27,17 @@ public class SudokuBoard
 
 	public void MakeMove(SudokuMove move)
 	{
+		// TODO: validate move
+		// - throw an exception when there's already a given number
+		// - throw an exception when move is not possible
+		
 		switch (move.MoveType)
 		{
 			case SudokuMoveType.Value:
-				_board[move.Row, move.Col].Value = move.Value;
+				_board[move.Row - 1, move.Col - 1].Value = move.Value;
 				break;
 			case SudokuMoveType.Note:
-				_board[move.Row, move.Col].Notes[move.Note - 1 ?? throw new Exception("MakeMove(): move type note yet note is null")] = true;
+				_board[move.Row - 1, move.Col - 1].Notes[move.Note - 1 ?? throw new Exception("MakeMove(): move type note yet note is null")] = true;
 				break;
 		}
 		
@@ -103,25 +107,30 @@ public class SudokuBoard
 
 		for (var row = 0; row < 9; row++)
 		{
-			sb.Append('[');
-			
+			if (row % 3 == 0)
+				sb.AppendLine("+-------+-------+-------+");
+
 			for (var col = 0; col < 9; col++)
 			{
+				if (col % 3 == 0)
+					sb.Append("| ");
+
 				var cell = _board[row, col];
 				var value = cell?.Value?.ToString() ?? "_";
-				
-				sb.Append(value);
 
-				if (col < 8)
-					sb.Append(' ');
+				if (cell is { Value: not null, IsGiven: true })
+					sb.Append($"\u001b[90m{value}\u001b[0m "); // gray
+				else if (cell is { Value: not null, IsGiven: false })
+					sb.Append($"{value} "); // default color
+				else
+					sb.Append("_ ");
 			}
-			
-			sb.Append(']');
-			
-			if (row < 8)
-				sb.AppendLine();
+
+			sb.AppendLine("|");
 		}
 
+		sb.AppendLine("+-------+-------+-------+");
 		return sb.ToString();
 	}
+
 }

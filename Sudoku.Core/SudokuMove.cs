@@ -11,8 +11,10 @@ public class SudokuMove
 	public int? Value { get; set; }
 	public int? Note { get; set; }
 
-	public SudokuMove(SudokuMoveType moveType, int valueOrNote)
+	public SudokuMove(int row, int col, int valueOrNote, SudokuMoveType moveType = SudokuMoveType.Value)
 	{
+		Row = row;
+		Col = col;
 		MoveType = moveType;
 		
 		switch (moveType)
