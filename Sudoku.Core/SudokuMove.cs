@@ -1,4 +1,5 @@
 ﻿using Sudoku.Core.Enums;
+using Sudoku.Core.Exceptions;
 
 namespace Sudoku.Core;
 
@@ -12,8 +13,6 @@ public class SudokuMove
 
 	public SudokuMove(SudokuMoveType moveType, int valueOrNote)
 	{
-		Validate();
-		
 		MoveType = moveType;
 		
 		switch (moveType)
@@ -25,12 +24,23 @@ public class SudokuMove
 				Note = valueOrNote;
 				break;
 		}
+		
+		Validate();
 	}
 	
-	// TODO: constructor validation
 	private void Validate()
 	{
-		
+		switch (MoveType)
+		{
+			case SudokuMoveType.Value:
+				if (Value is > 9 or < 1)
+					throw new InvalidMoveException(this);
+				break;
+			case SudokuMoveType.Note:
+				if (Note is > 9 or < 1)
+					throw new InvalidMoveException(this);
+				break;
+		}
 	}
 
 	public override string ToString() => $"{MoveType} ({Row}, {Col}, {Value ?? Note})";
