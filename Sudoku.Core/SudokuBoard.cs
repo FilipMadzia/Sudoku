@@ -27,9 +27,7 @@ public class SudokuBoard
 
 	public void MakeMove(SudokuMove move)
 	{
-		// TODO: validate move
-		// - throw an exception when there's already a given number
-		// - throw an exception when move is not possible
+		ValidateMove(move);
 		
 		switch (move.MoveType)
 		{
@@ -45,6 +43,15 @@ public class SudokuBoard
 	}
 	
 	// TODO: RevertMove()
+
+	private void ValidateMove(SudokuMove move)
+	{
+		// TODO: validate move
+		// - throw an exception when move is not possible
+		
+		if (_board[move.Row - 1, move.Col - 1].IsGiven)
+			throw new InvalidMoveException(move);
+	}
 
 	private void ValidateBoard()
 	{

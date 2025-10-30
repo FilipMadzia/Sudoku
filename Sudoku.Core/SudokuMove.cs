@@ -32,15 +32,21 @@ public class SudokuMove
 	
 	private void Validate()
 	{
+		var rowOutOfRange = Row is < 1 or > 9;
+		var colOutOfRange = Col is < 1 or > 9;
+
+		if (rowOutOfRange || colOutOfRange)
+			throw new InvalidMoveException(this, "Row or col out of range");
+		
 		switch (MoveType)
 		{
 			case SudokuMoveType.Value:
 				if (Value is > 9 or < 1)
-					throw new InvalidMoveException(this);
+					throw new InvalidMoveException(this, "Value is out of range");
 				break;
 			case SudokuMoveType.Note:
 				if (Note is > 9 or < 1)
-					throw new InvalidMoveException(this);
+					throw new InvalidMoveException(this, "Note is out of range");
 				break;
 		}
 	}
