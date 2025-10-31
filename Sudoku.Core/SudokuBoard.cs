@@ -42,7 +42,21 @@ public class SudokuBoard
 		Moves.Add(move);
 	}
 	
-	// TODO: RevertMove()
+	public void RevertMove()
+	{
+		var lastMove = Moves.Last();
+		Moves.Remove(lastMove);
+
+		switch (lastMove.MoveType)
+		{
+			case SudokuMoveType.Value:
+				_board[lastMove.Row - 1, lastMove.Col - 1].Value = null;
+				break;
+			case SudokuMoveType.Note:
+				_board[lastMove.Row - 1, lastMove.Col - 1].Notes[lastMove.Note - 1 ?? throw new Exception("RevertMove(): move type note yet note is null")] = false;
+				break;
+		}
+	}
 
 	private void ValidateMove(SudokuMove move)
 	{
