@@ -35,8 +35,16 @@ public class SudokuBoard
 				_board[move.Row - 1, move.Col - 1].Value = move.Value;
 				break;
 			case SudokuMoveType.Note:
-				_board[move.Row - 1, move.Col - 1].Notes[move.Note - 1 ?? throw new Exception("MakeMove(): move type note yet note is null")] = true;
+			{
+				if (move.Note is null)
+					throw new Exception("MakeMove(): move type Note yet Note is null");
+
+				var cell = _board[move.Row - 1, move.Col - 1];
+				var noteIndex = move.Note.Value - 1;
+
+				cell.Notes[noteIndex] = !cell.Notes[noteIndex];
 				break;
+			}
 		}
 		
 		Moves.Add(move);
@@ -53,8 +61,16 @@ public class SudokuBoard
 				_board[lastMove.Row - 1, lastMove.Col - 1].Value = null;
 				break;
 			case SudokuMoveType.Note:
-				_board[lastMove.Row - 1, lastMove.Col - 1].Notes[lastMove.Note - 1 ?? throw new Exception("RevertMove(): move type note yet note is null")] = false;
+			{
+				if (lastMove.Note is null)
+					throw new Exception("MakeMove(): move type Note yet Note is null");
+
+				var cell = _board[lastMove.Row - 1, lastMove.Col - 1];
+				var noteIndex = lastMove.Note.Value - 1;
+
+				cell.Notes[noteIndex] = !cell.Notes[noteIndex];
 				break;
+			}
 		}
 	}
 
