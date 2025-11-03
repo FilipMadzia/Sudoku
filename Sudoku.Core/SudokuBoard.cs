@@ -76,11 +76,64 @@ public class SudokuBoard
 
 	private void ValidateMove(SudokuMove move)
 	{
-		// TODO: validate move
-		// - throw an exception when move is not possible
-		
-		if (_board[move.Row - 1, move.Col - 1].IsGiven)
-			throw new InvalidMoveException(move);
+		var cell = _board[move.Row - 1, move.Col - 1];
+
+		if (cell.IsGiven)
+			throw new InvalidMoveException(move, "Cannot modify a given cell.");
+
+		switch (move.MoveType)
+		{
+			case SudokuMoveType.Value:
+			{
+				if (move.Value is null)
+					throw new InvalidMoveException(move, "Move type Value yet Value is null.");
+
+				int value = move.Value.Value;
+
+				// Row check
+				for (int c = 0; c < 9; c++)
+				{
+					if (c == move.Col - 1) continue;
+					if (_board[move.Row - 1, c].Value == value)
+						throw new InvalidMoveException(move, $"Value {value} already exists in this row.");
+				}
+
+				// Column check
+				for (int r = 0; r < 9; r++)
+				{
+					if (r == move.Row - 1) continue;
+					if (_board[r, move.Col - 1].Value == value)
+						throw new InvalidMoveException(move, $"Value {value} already exists in this column.");
+				}
+
+				// 3x3 box check
+				int startRow = (move.Row - 1) / 3 * 3;
+				int startCol = (move.Col - 1) / 3 * 3;
+
+				for (int r = 0; r < 3; r++)
+				{
+					for (int c = 0; c < 3; c++)
+					{
+						int checkRow = startRow + r;
+						int checkCol = startCol + c;
+
+						if (checkRow == move.Row - 1 && checkCol == move.Col - 1)
+							continue;
+
+						if (_board[checkRow, checkCol].Value == value)
+							throw new InvalidMoveException(move, $"Value {value} already exists in this subgrid.");
+					}
+				}
+
+				break;
+			}
+			case SudokuMoveType.Note:
+			{
+				if (move.Note is null)
+					throw new InvalidMoveException(move, "Move type Note yet Note is null.");
+				break;
+			}
+		}
 	}
 
 	private void ValidateBoard()

@@ -5,8 +5,8 @@ namespace Sudoku.Core;
 
 public class SudokuMove
 {
-	public int Row { get; set; }
-	public int Col { get; set; }
+	public int Row { get; private set; }
+	public int Col { get; private set; }
 	public SudokuMoveType MoveType { get; set; }
 	public int? Value { get; set; }
 	public int? Note { get; set; }
