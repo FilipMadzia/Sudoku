@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Sudoku.Mobile.ViewModels;
+using Sudoku.Mobile.Views;
 
 namespace Sudoku.Mobile
 {
@@ -14,6 +16,9 @@ namespace Sudoku.Mobile
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				});
+
+			builder.Services.AddTransient<LandingPage>();
+			builder.Services.AddTransient<LandingPageViewModel>();
 
 #if DEBUG
 			builder.Logging.AddDebug();

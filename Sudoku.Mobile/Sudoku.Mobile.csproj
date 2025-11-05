@@ -68,4 +68,10 @@
 	  <ProjectReference Include="..\Sudoku.Core\Sudoku.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Views\LandingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
