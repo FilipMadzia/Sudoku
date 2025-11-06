@@ -1,11 +1,11 @@
-﻿using Sudoku.Mobile.ViewModels;
-using Sudoku.Mobile.Views;
+﻿using Sudoku.Mobile.Views;
 
 namespace Sudoku.Mobile;
 
 public partial class App : Application
 {
 	private readonly LandingPage _landingPage;
+
 	public App(LandingPage landingPage)
 	{
 		InitializeComponent();
