@@ -10,14 +10,14 @@ public class LandingPageViewModel
 
 	private readonly INavigationService _navigation;
 
-	public LandingPageViewModel(INavigationService navigation)
+	public LandingPageViewModel(INavigationService navigation, GamePageViewModel gamePageViewModel)
 	{
 		_navigation = navigation;
-		StartGameCommand = new Command(async () => await StartGame());
+		StartGameCommand = new Command(async () => await StartGame(gamePageViewModel));
 	}
 
-	private async Task StartGame()
+	private async Task StartGame(GamePageViewModel gamePageViewModel)
 	{
-		await _navigation.NavigateToAsync(new GamePage());
+		await _navigation.NavigateToAsync(new GamePage(gamePageViewModel));
 	}
 }
