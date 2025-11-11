@@ -1,9 +1,13 @@
-﻿namespace Sudoku.Mobile.ViewModels;
+﻿using Sudoku.Core;
+
+namespace Sudoku.Mobile.ViewModels;
 
 public class GamePageViewModel
 {
 	public Grid BuildBoard()
 	{
+		var sudokuBoard = SudokuBoardGenerator.GenerateFilled();
+
 		var board = new Grid
 		{
 			RowSpacing = 1,
@@ -22,11 +26,11 @@ public class GamePageViewModel
 		{
 			for(int col = 0; col < 9; col++)
 			{
-				var cell = new Frame
+				var cell = new Border
 				{
 					Content = new Label
 					{
-						Text = $"{row + 1},{col + 1}",
+						Text = sudokuBoard[row, col].Value!.ToString(),
 						HorizontalOptions = LayoutOptions.Center,
 						VerticalOptions = LayoutOptions.Center
 					},
