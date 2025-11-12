@@ -3,5 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sudoku.Mobile.Views.GamePage"
              Title="GamePage">
-	<Grid x:Name="SudokuBoard"></Grid>
+	<Grid x:Name="SudokuBoard"
+	    HorizontalOptions="Fill"
+        VerticalOptions="Center"
+	    SizeChanged="SudokuBoard_SizeChanged"></Grid>
 </ContentPage>

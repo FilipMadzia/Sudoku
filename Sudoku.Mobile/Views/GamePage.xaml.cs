@@ -11,4 +11,10 @@ public partial class GamePage : ContentPage
 		BindingContext = gamePageViewModel;
 		SudokuBoard.Children.Add(gamePageViewModel.BuildBoard());
 	}
+
+	private void SudokuBoard_SizeChanged(object sender, EventArgs e)
+	{
+		if(sender is Grid grid)
+			grid.HeightRequest = grid.Width;
+	}
 }
