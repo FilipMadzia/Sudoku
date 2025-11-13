@@ -25,17 +25,31 @@ public class GamePageViewModel
 		for(var row = 0; row < 9; row++)
 		for(var col = 0; col < 9; col++)
 		{
+			var cellValue = sudokuBoard[row, col].Value == 0
+				? ""
+				: sudokuBoard[row, col].Value.ToString();
+
 			var cell = new Border
 			{
 				Content = new Label
 				{
-					Text = sudokuBoard[row, col].Value.ToString(),
+					Text = cellValue,
 					HorizontalOptions = LayoutOptions.Center,
-					VerticalOptions = LayoutOptions.Center
+					VerticalOptions = LayoutOptions.Center,
+					FontSize = 20
 				},
 				BackgroundColor = Colors.White,
-				Padding = 0
+				Padding = 0,
+				Stroke = Colors.Black,
+				StrokeThickness = 0.5
 			};
+
+			var top = (row % 3 == 0) ? 2 : 0.5;
+			var left = (col % 3 == 0) ? 2 : 0.5;
+			var right = (col == 8) ? 2 : 0.5;
+			var bottom = (row == 8) ? 2 : 0.5;
+
+			cell.Margin = new Thickness(left, top, right, bottom);
 
 			Grid.SetRow(cell, row);
 			Grid.SetColumn(cell, col);
