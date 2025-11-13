@@ -25,9 +25,7 @@ public class GamePageViewModel
 		for(var row = 0; row < 9; row++)
 		for(var col = 0; col < 9; col++)
 		{
-			var cellValue = sudokuBoard[row, col].Value == 0
-				? ""
-				: sudokuBoard[row, col].Value.ToString();
+			var cellValue = sudokuBoard[row, col].Value.ToString();
 
 			var cell = new Border
 			{
